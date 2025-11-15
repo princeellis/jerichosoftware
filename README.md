@@ -45,4 +45,3 @@ python manage.py runserver
 - Willo Decisions
 - Magic Dining Alerts (Out of service)
 - Bible App (Coming soon)
-
