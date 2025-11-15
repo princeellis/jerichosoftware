@@ -1,0 +1,146 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    .about-section {
+        margin-top: 2rem;
+        padding: 2rem;
+        background: rgba(30, 41, 59, 0.3);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        margin-bottom: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .about-section p {
+        max-width: 700px;
+    }
+    
+    .project-item {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: rgba(30, 41, 59, 0.3);
+        border: 1px solid var(--glass-border);
+        border-radius: 16px;
+        border-left: 3px solid var(--primary);
+        transition: all 0.3s ease;
+    }
+    
+    .project-item:hover {
+        background: rgba(30, 41, 59, 0.5);
+        border-left-color: var(--secondary);
+        transform: translateX(5px);
+    }
+    
+    .project-item h3 {
+        margin-top: 0;
+        color: var(--text);
+    }
+    
+    .project-item p {
+        margin-bottom: 0;
+    }
+    
+    .contact-box {
+        margin-top: 2rem;
+        padding: 2rem;
+        background: rgba(30, 41, 59, 0.4);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        border-top: 3px solid var(--accent);
+    }
+    
+    .contact-box h2 {
+        margin-top: 0;
+    }
+    
+    .contact-box strong {
+        color: var(--text);
+    }
+    
+    .profile-image-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 2rem;
+    }
+    
+    .profile-image {
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 8px solid rgba(30, 41, 59, 0.8);
+        box-shadow: 
+            0 0 0 4px rgba(99, 102, 241, 0.3),
+            0 10px 30px rgba(0, 0, 0, 0.5);
+        position: relative;
+    }
+    
+    .profile-name {
+        color: white;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-top: 1.5rem;
+        margin-bottom: 0;
+        font-family: 'Space Grotesk', sans-serif;
+        letter-spacing: -0.5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="about-section">
+    <div class="profile-image-container">
+        <img src="{% static 'base/images/eli.png' %}" alt="Elisha (Eli) McDuffie" class="profile-image">
+        <h1 class="profile-name">Elisha McDuffie</h1>
+    </div>
+    <p>Hi, I'm Elisha (Eli) McDuffie. I'm a Computer Science student at California State University, Long Beach and the founder of Jericho Software.</p>
+    <p>I was born in Nashville, Tennessee, and currently live in California. I started building software in high school and have been creating projects that solve real problems ever since.</p>
+</div>
+
+<div>
+    <h2>My Projects</h2>
+    
+    <div class="project-item">
+        <h3>TTP Appointments</h3>
+        <p>Built this in high school (February 2023) to help people get Global Entry interview appointments. It's been featured in The Points Guy, NerdWallet, and other publications.</p>
+    </div>
+    
+    <div class="project-item">
+        <h3>Willo Decisions</h3>
+        <p>Created in the summer between high school and community college (May 2024). It's a platform for collaborative decision-making using the Choosing By Advantages method.</p>
+    </div>
+    
+    <div class="project-item">
+        <h3>Magic Dining Alerts</h3>
+        <p>A notification service for Walt Disney restaurant reservations, helping users secure hard-to-get dining spots. <em style="color: var(--text-muted);">(Out of service)</em></p>
+    </div>
+    
+    <div class="project-item">
+        <h3>Bible App</h3>
+        <p>Currently in development - a comprehensive Bible application for reading, studying, and exploring scripture.</p>
+    </div>
+    
+    <p style="margin-top: 2rem;">You can learn more about these projects on the <a href="{% url 'projects' %}">Projects page</a>.</p>
+</div>
+
+<div class="contact-box">
+    <h2>Get in Touch</h2>
+    <p>Feel free to reach out if you want to connect or discuss projects!</p>
+    <p style="margin-top: 1rem;">
+        <strong>Email:</strong> eli@ttpappointments.com
+    </p>
+</div>
+
+<div style="margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 1rem;">
+    <a href="{% url 'home' %}" class="btn">Back to Home</a>
+    <a href="{% url 'projects' %}" class="btn btn-secondary" style="background: linear-gradient(135deg, var(--secondary), var(--accent)); box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);">View My Projects</a>
+</div>
+{% endblock %}

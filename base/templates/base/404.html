@@ -1,0 +1,16 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<div style="text-align: center; padding: 4rem 2rem;">
+    <h1 style="font-size: 6rem; margin-bottom: 1rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">404</h1>
+    <h2 style="font-size: 2rem; margin-bottom: 1.5rem; color: var(--text);">Page Not Found</h2>
+    <p style="font-size: 1.2rem; color: var(--text-muted); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+        Sorry, the page you're looking for doesn't exist. It may have been moved, deleted, or the URL might be incorrect.
+    </p>
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="{% url 'home' %}" class="btn">Go to Home</a>
+        <a href="{% url 'projects' %}" class="btn" style="background: linear-gradient(135deg, var(--secondary), var(--accent)); box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);">View Projects</a>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,110 @@
+{% extends 'base/base.html' %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        text-align: center;
+        padding: 3rem 0;
+        margin-bottom: 4rem;
+    }
+    
+    .hero-section h1 {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, var(--text), var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: gradient-shift 5s ease infinite;
+        background-size: 200% 200%;
+    }
+    
+    .hero-section p {
+        font-size: 1.3rem;
+        color: var(--text-muted);
+        max-width: 700px;
+        margin: 0 auto 2rem;
+    }
+    
+    .cta-buttons {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 2.5rem;
+    }
+    
+    .btn-secondary {
+        background: linear-gradient(135deg, var(--secondary), var(--accent));
+        box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+    }
+    
+    .btn-secondary:hover {
+        box-shadow: 0 6px 20px rgba(236, 72, 153, 0.6);
+    }
+    
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+    
+    .feature-card {
+        background: rgba(30, 41, 59, 0.4);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--primary);
+        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+    }
+    
+    .feature-card h3 {
+        color: var(--text);
+        margin-bottom: 1rem;
+    }
+    
+    .feature-card p {
+        color: var(--text-muted);
+        margin: 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <h1>{{ page_title }}</h1>
+    <p>Building innovative software solutions that solve real-world problems. Explore my projects and learn more about what I do.</p>
+    <div class="cta-buttons">
+        <a href="{% url 'projects' %}" class="btn">View Projects</a>
+        <a href="{% url 'about' %}" class="btn btn-secondary">About Me</a>
+    </div>
+</div>
+
+<div>
+    <h2>What I Do</h2>
+    <p>I create software solutions that make a difference. From helping travelers secure appointments to enabling better decision-making, each project is built with care and attention to detail.</p>
+    
+    <div class="feature-grid">
+        <div class="feature-card">
+            <h3>🚀 Innovation</h3>
+            <p>Building cutting-edge solutions that solve real problems</p>
+        </div>
+        <div class="feature-card">
+            <h3>💡 Quality</h3>
+            <p>Focusing on user experience and reliable functionality</p>
+        </div>
+        <div class="feature-card">
+            <h3>🎯 Impact</h3>
+            <p>Creating tools that help thousands of users every day</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
