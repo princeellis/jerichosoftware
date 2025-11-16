@@ -146,11 +146,8 @@
         {% if project.featured %}
         <span class="featured-badge">⭐ Featured</span>
         {% endif %}
-        {% if project.slug == 'bible-app' %}
+        {% if project.slug == 'ai-bible-guide' %}
         <span class="coming-soon-badge">🚧 Coming Soon</span>
-        {% endif %}
-        {% if project.slug == 'magic-dining-alerts' %}
-        <span class="out-of-service-badge">⚠️ Out of Service</span>
         {% endif %}
         {% if project.logo %}
         <img src="{% static project.logo %}" alt="{{ project.name }} Logo" class="project-logo-small{% if project.slug == 'magic-dining-alerts' %} no-filter{% endif %}" onerror="this.style.display='none'">

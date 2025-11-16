@@ -7,3 +7,4 @@ Required files:
 
 The logos will automatically be converted to white to match the dark theme.
 
+

@@ -16,7 +16,7 @@ def projects(request):
             'slug': 'ttp-appointments',
             'name': 'TTP Appointments',
             'url': 'https://ttpappointments.com',
-            'description': 'Sign up for TTP Appointment Interview Alerts and receive automatic email and text notifications for Global Entry interview appointments.',
+            'description': 'Sign up for TTP Appointment Interview Alerts and receive automatic email and text notifications for Global Entry interview appointments. Built with Django, Python, REST APIs, Stripe SDK for payments, and Twilio for SMS notifications.',
             'featured': True,
             'logo': 'base/images/ttplogo copy.png'
         },
@@ -24,7 +24,7 @@ def projects(request):
             'slug': 'willo-decisions',
             'name': 'Willo Decisions',
             'url': 'https://willodecisions.com',
-            'description': 'An interactive platform for collaborative decision-making using the Choosing By Advantages (CBA) method.',
+            'description': 'An interactive platform for collaborative decision-making using the Choosing By Advantages (CBA) method. Built with Django, Python, and REST APIs.',
             'featured': True,
             'logo': 'base/images/willoLogo copy.png'
         },
@@ -32,15 +32,15 @@ def projects(request):
             'slug': 'magic-dining-alerts',
             'name': 'Magic Dining Alerts',
             'url': '#',
-            'description': 'A notification service for Walt Disney restaurant reservations. (Out of service)',
+            'description': 'A notification service for Walt Disney restaurant reservations, helping users secure hard-to-get dining spots. Built with Django, Python, and REST APIs.',
             'featured': False,
             'logo': 'base/images/logo copy.png'
         },
         {
-            'slug': 'bible-app',
-            'name': 'Bible App',
+            'slug': 'ai-bible-guide',
+            'name': 'AI Bible Guide',
             'url': '#',
-            'description': 'A comprehensive Bible application for reading, studying, and exploring scripture.',
+            'description': 'A native iOS app that uses AI to help users understand and explore scripture. Built with Swift, Firebase, and OpenAI.',
             'featured': False,
             'logo': None
         }
@@ -60,7 +60,7 @@ def project_detail(request, project_slug):
             'url': 'https://ttpappointments.com',
             'logo': 'base/images/ttplogo copy.png',
             'tagline': 'Sign Up Now for TTP Appointment Interview Alerts',
-            'description': 'Sign up now for TTP Appointment Interview Alerts and receive automatic email and text notifications as soon as Global Entry interview appointment slots become available. Stay ahead with our Trusted Traveler Program alerts and never miss your chance to secure a Global Entry appointment.',
+            'description': 'Sign up now for TTP Appointment Interview Alerts and receive automatic email and text notifications as soon as Global Entry interview appointment slots become available. Stay ahead with our Trusted Traveler Program alerts and never miss your chance to secure a Global Entry appointment. Built with Django, Python, REST APIs, Stripe SDK for payment processing, and Twilio for SMS notifications.',
             'features': [
                 'Free Alert with No Credit Card and No Charges',
                 'One Month of Alerts, No Recurring Charges',
@@ -126,7 +126,7 @@ def project_detail(request, project_slug):
             'url': 'https://willodecisions.com',
             'logo': 'base/images/willoLogo copy.png',
             'tagline': 'Sharpen thinking. Simplify deciding. Rest easy.',
-            'description': 'Willo provides an interactive platform for collaborative decision-making, utilizing the Choosing By Advantages (CBA) method to prioritize the most significant advantages of each option. Users can create projects, invite collaborators, and visualize decision-making through interactive charts and graphs.',
+            'description': 'Willo provides an interactive platform for collaborative decision-making, utilizing the Choosing By Advantages (CBA) method to prioritize the most significant advantages of each option. Users can create projects, invite collaborators, and visualize decision-making through interactive charts and graphs. Built with Django, Python, and REST APIs.',
             'features': [
                 'Interactive platform for collaborative decision-making',
                 'Choosing By Advantages (CBA) method',
@@ -175,7 +175,7 @@ def project_detail(request, project_slug):
             'url': '#',
             'logo': 'base/images/logo copy.png',
             'tagline': 'Notification Service for Walt Disney Restaurant Reservations',
-            'description': 'Magic Dining Alerts was a notification service designed to help users secure hard-to-get Walt Disney restaurant reservations. The service sent alerts when dining reservations became available.',
+            'description': 'Magic Dining Alerts is a notification service designed to help users secure hard-to-get Walt Disney restaurant reservations. The service sends alerts when dining reservations become available. Built with Django, Python, and REST APIs.',
             'features': [
                 'Email and SMS notifications',
                 'Real-time reservation alerts',
@@ -183,53 +183,61 @@ def project_detail(request, project_slug):
                 'Easy sign-up process'
             ],
             'how_it_works': [
-                'Users signed up for alerts on specific Disney restaurants',
-                'The service monitored reservation availability',
-                'Users received notifications when reservations opened',
-                'Users could then book directly through Disney\'s system'
+                'Users sign up for alerts on specific Disney restaurants',
+                'The service monitors reservation availability',
+                'Users receive notifications when reservations open',
+                'Users can then book directly through Disney\'s system'
             ],
             'faqs': [
                 {
-                    'question': 'Is Magic Dining Alerts still available?',
-                    'answer': 'No, Magic Dining Alerts is currently out of service.'
+                    'question': 'How does Magic Dining Alerts work?',
+                    'answer': 'Magic Dining Alerts monitors Disney restaurant availability and sends you notifications when reservations become available for your selected restaurants.'
+                },
+                {
+                    'question': 'Which Disney restaurants are supported?',
+                    'answer': 'Magic Dining Alerts supports all Walt Disney World and Disneyland restaurants that accept reservations through the Disney dining system.'
                 }
-            ],
-            'out_of_service': True
+            ]
         },
-        'bible-app': {
-            'name': 'Bible App',
+        'ai-bible-guide': {
+            'name': 'AI Bible Guide',
             'url': '#',
             'logo': None,
-            'tagline': 'Read, Study, and Explore Scripture',
-            'description': 'A comprehensive Bible application designed to help you read, study, and explore scripture. This app provides an intuitive interface for accessing the Bible, with features designed to enhance your study and understanding of God\'s word.',
+            'tagline': 'AI-Powered Bible Study and Exploration',
+            'description': 'AI Bible Guide is a native iOS app that uses artificial intelligence to help users understand and explore scripture. Get AI-powered verse explanations, contextual insights, and personalized study guidance. Built with Swift, Firebase for backend services, and OpenAI for AI capabilities.',
             'features': [
-                'Complete Bible text in multiple translations',
-                'Reading plans and devotionals',
-                'Bookmark and highlight verses',
-                'Search functionality',
-                'Notes and annotations',
-                'Offline access',
-                'Cross-references and study tools'
+                'AI verse explanations and interpretations',
+                'Contextual insights powered by OpenAI',
+                'Interactive Bible reading experience',
+                'Personalized study recommendations',
+                'Search and explore scripture with AI assistance',
+                'Native iOS app with smooth performance',
+                'Cloud sync with Firebase'
             ],
             'how_it_works': [
-                'Download and install the app',
-                'Choose your preferred Bible translation',
-                'Navigate through books, chapters, and verses',
-                'Use study tools to deepen your understanding',
-                'Save your favorite verses and create notes'
+                'Download the app from the App Store',
+                'Navigate through Bible books, chapters, and verses',
+                'Tap on any verse to get AI-powered explanations',
+                'Ask questions and get contextual insights',
+                'Save your favorite verses and AI explanations',
+                'Sync your progress across devices with Firebase'
             ],
             'faqs': [
+                {
+                    'question': 'How does the AI verse explanation work?',
+                    'answer': 'The app uses OpenAI to provide detailed explanations and contextual insights for Bible verses, helping you understand the meaning, historical context, and application of scripture.'
+                },
                 {
                     'question': 'What Bible translations are available?',
                     'answer': 'The app includes multiple popular Bible translations. More details coming soon as the app is finalized.'
                 },
                 {
-                    'question': 'Can I use the app offline?',
-                    'answer': 'Yes, once you download the Bible text, you can access it offline without an internet connection.'
+                    'question': 'Is this a native iOS app?',
+                    'answer': 'Yes, AI Bible Guide is built as a native iOS app using Swift, providing optimal performance and a smooth user experience on iPhone and iPad.'
                 },
                 {
-                    'question': 'Is the app free?',
-                    'answer': 'Details about pricing and availability will be announced soon. Stay tuned for updates!'
+                    'question': 'What technologies power the app?',
+                    'answer': 'The app is built with Swift for the iOS interface, Firebase for backend services and data synchronization, and OpenAI for AI-powered verse explanations and insights.'
                 }
             ],
             'coming_soon': True
