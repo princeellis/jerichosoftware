@@ -34,7 +34,7 @@ if os.environ.get("RAILWAY_ENVIRONMENT") is None:
 # SECURITY WARNING: keep the secret key used in production secret!
 # In Railway, set SECRET_KEY as an environment variable
 # Fallback is only for local development - NEVER use in production
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-!fmhu0e@4x3m0p93w(=mx2a#zjg=_om*pczyjzqnu&wwpbbx-v')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG is True in development, False in production
