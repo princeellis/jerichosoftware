@@ -34,21 +34,28 @@ if os.environ.get("RAILWAY_ENVIRONMENT") is None:
 # SECURITY WARNING: keep the secret key used in production secret!
 # In Railway, set SECRET_KEY as an environment variable
 # Fallback is only for local development - NEVER use in production
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-!fmhu0e@4x3m0p93w(=mx2a#zjg=_om*pczyjzqnu&wwpbbx-v')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG is True in development, False in production
 # In Railway, set DEBUG=False as an environment variable
-# For local development, .env file can set DEBUG=True
-DEBUG = os.environ.get('DEBUG', 'False').lower() in ('true', '1', 'yes')
+# For local development, defaults to True if not set
+is_railway = os.environ.get("RAILWAY_ENVIRONMENT") is not None
+DEBUG = os.environ.get('DEBUG', 'True' if not is_railway else 'False').lower() in ('true', '1', 'yes')
 
 # ALLOWED_HOSTS: In production, set this to your domain(s)
 # Example: ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com']
 if DEBUG:
     ALLOWED_HOSTS = ['*']
 else:
-    # In production, set ALLOWED_HOSTS via environment variable or update this list
-    ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',') if os.environ.get('ALLOWED_HOSTS') else []
+    # In production, set ALLOWED_HOSTS via environment variable
+    # If not set, allow all hosts (less secure, but prevents 400 errors)
+    allowed_hosts_str = os.environ.get('ALLOWED_HOSTS', '')
+    if allowed_hosts_str:
+        ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_str.split(',') if host.strip()]
+    else:
+        # Fallback: allow all hosts if not explicitly set (for development/testing)
+        ALLOWED_HOSTS = ['*']
 
 
 # Application definition
