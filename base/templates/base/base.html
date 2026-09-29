@@ -74,22 +74,6 @@
             color: var(--ink);
             text-decoration: none;
             letter-spacing: -0.01em;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-
-        .wordmark-mark {
-            width: 26px;
-            height: 26px;
-            border-radius: 6px;
-            background: var(--ink);
-            color: var(--bg);
-            font-family: var(--serif);
-            font-size: 1rem;
-            display: grid;
-            place-items: center;
-            line-height: 1;
         }
 
         .wordmark:hover { color: var(--ink); text-decoration: none; }
@@ -268,8 +252,14 @@
             main { padding: 2.5rem 0 3.5rem; }
             nav { min-height: 64px; }
             nav ul { gap: 1.1rem; }
-            .wordmark-text { display: none; }
+            .wordmark { font-size: 1.2rem; }
             .section { margin-top: 3rem; }
+        }
+
+        @media (max-width: 400px) {
+            .wordmark { font-size: 1.05rem; }
+            nav ul { gap: 0.9rem; }
+            nav ul a { font-size: 0.9rem; }
         }
     </style>
     {% block extra_css %}{% endblock %}
@@ -278,10 +268,7 @@
     <header>
         <div class="container">
             <nav>
-                <a href="{% url 'home' %}" class="wordmark" aria-label="Jericho Software home">
-                    <span class="wordmark-mark" aria-hidden="true">J</span>
-                    <span class="wordmark-text">Jericho Software</span>
-                </a>
+                <a href="{% url 'home' %}" class="wordmark">Jericho Software</a>
                 {% with url_name=request.resolver_match.url_name %}
                 <ul>
                     <li><a href="{% url 'home' %}" {% if url_name == 'home' %}class="active"{% endif %}>Home</a></li>
