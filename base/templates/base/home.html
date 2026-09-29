@@ -1,110 +1,156 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block extra_css %}
 <style>
-    .hero-section {
-        text-align: center;
-        padding: 3rem 0;
-        margin-bottom: 4rem;
-    }
-    
-    .hero-section h1 {
-        font-size: 4rem;
-        margin-bottom: 1.5rem;
-        background: linear-gradient(135deg, var(--text), var(--primary), var(--secondary));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        animation: gradient-shift 5s ease infinite;
-        background-size: 200% 200%;
-    }
-    
-    .hero-section p {
-        font-size: 1.3rem;
-        color: var(--text-muted);
-        max-width: 700px;
-        margin: 0 auto 2rem;
-    }
-    
-    .cta-buttons {
-        display: flex;
-        gap: 1.5rem;
-        justify-content: center;
-        flex-wrap: wrap;
-        margin-top: 2.5rem;
-    }
-    
-    .btn-secondary {
-        background: linear-gradient(135deg, var(--secondary), var(--accent));
-        box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
-    }
-    
-    .btn-secondary:hover {
-        box-shadow: 0 6px 20px rgba(236, 72, 153, 0.6);
-    }
-    
-    .feature-grid {
+    .intro {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 3rem;
+        align-items: center;
+    }
+
+    .intro h1 { max-width: 14em; }
+
+    .intro .avatar { width: 240px; height: 240px; }
+
+    .intro .btn-row { margin-top: 2rem; }
+
+    /* Project index: one row per project, columns line up across rows */
+    .index { list-style: none; margin: 0; }
+
+    .index li { margin: 0; border-bottom: 1px solid var(--line); }
+
+    .index a {
+        display: grid;
+        grid-template-columns: 96px minmax(0, 1fr) auto;
+        gap: 1.5rem;
+        align-items: center;
+        padding: 1.25rem 0.5rem;
+        color: inherit;
+        text-decoration: none;
+        border-radius: 6px;
+    }
+
+    .index a:hover { background: var(--surface); text-decoration: none; }
+    .index a:hover .index-name { color: var(--accent); }
+
+    .index-logo {
+        width: 96px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .index-logo.on-dark { background: var(--ink); border-radius: 8px; }
+
+    .index-logo img { max-width: 96px; max-height: 44px; object-fit: contain; }
+
+    .index-logo .placeholder {
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        background: var(--ink);
+        color: var(--bg);
+        font-family: var(--serif);
+        font-size: 1.3rem;
+        display: grid;
+        place-items: center;
+    }
+
+    .index-name {
+        font-family: var(--serif);
+        font-size: 1.3rem;
+        color: var(--ink);
+        line-height: 1.2;
+    }
+
+    .index-summary { display: block; color: var(--muted); font-size: 0.97rem; margin: 0.15rem 0 0; }
+
+    .index-meta { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 0.25rem; }
+    .index-meta .year { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
+
+    .note {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
         gap: 2rem;
-        margin-top: 3rem;
     }
-    
-    .feature-card {
-        background: rgba(30, 41, 59, 0.4);
-        backdrop-filter: blur(10px);
-        border: 1px solid var(--glass-border);
-        border-radius: 20px;
-        padding: 2rem;
-        text-align: center;
-        transition: all 0.3s ease;
-    }
-    
-    .feature-card:hover {
-        transform: translateY(-5px);
-        border-color: var(--primary);
-        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
-    }
-    
-    .feature-card h3 {
-        color: var(--text);
-        margin-bottom: 1rem;
-    }
-    
-    .feature-card p {
-        color: var(--text-muted);
-        margin: 0;
+
+    .note h3 { font-size: 1.15rem; }
+    .note p { color: var(--muted); font-size: 0.97rem; }
+
+    @media (max-width: 760px) {
+        .intro { grid-template-columns: 1fr; gap: 2rem; }
+        .intro .avatar { width: 150px; height: 150px; order: -1; }
+        .index a { grid-template-columns: 64px minmax(0, 1fr); gap: 1rem; }
+        .index-logo, .index-logo img { width: 64px; max-width: 64px; }
+        .index-meta { grid-column: 2; flex-direction: row; align-items: center; gap: 0.75rem; }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="hero-section">
-    <h1>{{ page_title }}</h1>
-    <p>Building innovative software solutions that solve real-world problems. Explore my projects and learn more about what I do.</p>
-    <div class="cta-buttons">
-        <a href="{% url 'projects' %}" class="btn">View Projects</a>
-        <a href="{% url 'about' %}" class="btn btn-secondary">About Me</a>
+<section class="intro">
+    <div>
+        <span class="eyebrow">Jericho Software</span>
+        <h1>I'm Eli McDuffie. I build software for problems I run into.</h1>
+        <p class="lede">Jericho Software is where I ship my projects: a retirement planner, a Global Entry appointment tracker, a group decision tool, and a few others. I'm a Computer Science student at Cal State Long Beach.</p>
+        <div class="btn-row">
+            <a href="{% url 'projects' %}" class="btn">See the projects</a>
+            <a href="{% url 'about' %}" class="btn btn-ghost">About me</a>
+        </div>
     </div>
-</div>
+    <img src="{% static 'base/images/eli.jpg' %}" alt="Eli McDuffie" class="avatar" width="240" height="240">
+</section>
 
-<div>
-    <h2>What I Do</h2>
-    <p>I create software solutions that make a difference. From helping travelers secure appointments to enabling better decision making, each project is built with care and attention to detail.</p>
-    
-    <div class="feature-grid">
-        <div class="feature-card">
-            <h3>🚀 Innovation</h3>
-            <p>Building cutting-edge solutions that solve real problems</p>
+<section class="section">
+    <div class="section-head">
+        <h2>Projects</h2>
+        <a href="{% url 'projects' %}">All details →</a>
+    </div>
+    <ul class="index">
+        {% for project in projects %}
+        <li>
+            <a href="{% url 'project_detail' project.slug %}">
+                <span class="index-logo{% if project.logo_on_dark %} on-dark{% endif %}">
+                    {% if project.logo %}
+                    <img src="{% static project.logo %}" alt="" loading="lazy">
+                    {% else %}
+                    <span class="placeholder" aria-hidden="true">{{ project.name|first }}</span>
+                    {% endif %}
+                </span>
+                <span>
+                    <span class="index-name">{{ project.name }}</span>
+                    <span class="index-summary">{{ project.summary }}</span>
+                </span>
+                <span class="index-meta">
+                    <span class="status status-{{ project.status|slugify }}">{{ project.status }}</span>
+                    {% if project.year %}<span class="year">{{ project.year }}</span>{% endif %}
+                </span>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+
+<section class="section">
+    <div class="section-head">
+        <h2>How I work</h2>
+    </div>
+    <div class="note">
+        <div>
+            <h3>Start from a real problem</h3>
+            <p>Each project began with something I or my family actually needed: an interview slot, a group decision, a retirement plan we could understand.</p>
         </div>
-        <div class="feature-card">
-            <h3>💡 Quality</h3>
-            <p>Focusing on user experience and reliable functionality</p>
+        <div>
+            <h3>Ship it, then improve it</h3>
+            <p>I get a working version in front of people early and keep iterating based on how they use it.</p>
         </div>
-        <div class="feature-card">
-            <h3>🎯 Impact</h3>
-            <p>Creating tools that help thousands of users every day</p>
+        <div>
+            <h3>Keep it honest</h3>
+            <p>Clear pricing, free tiers where it makes sense, and no selling your data.</p>
         </div>
     </div>
-</div>
+</section>
 {% endblock %}

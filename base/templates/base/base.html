@@ -1,438 +1,275 @@
-<!DOCTYPE html>
+{% load static %}<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{{ title }}{% endblock %} - Jericho Software</title>
+    <title>{% block title %}{{ title }}{% endblock %} · Jericho Software</title>
+    <meta name="description" content="{% block meta_description %}Jericho Software is Elisha (Eli) McDuffie's software studio. Projects include RetirePlanAI, TTP Appointments and Willo Decisions.{% endblock %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #ec4899;
-            --accent: #06b6d4;
-            --dark: #0f172a;
-            --dark-light: #1e293b;
-            --dark-lighter: #334155;
-            --text: #e2e8f0;
-            --text-muted: #94a3b8;
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --bg: #f6f4ef;
+            --surface: #ffffff;
+            --ink: #1d1c1a;
+            --ink-2: #3d3b37;
+            --muted: #6b675f;
+            --line: #e2ded4;
+            --line-strong: #cfc9bb;
+            --accent: #a3401c;
+            --accent-soft: #f4e6df;
+            --ok: #2f6b3f;
+            --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+            --sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+            --radius: 10px;
+            --wrap: 1080px;
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+
+        *, *::before, *::after { box-sizing: border-box; }
+        * { margin: 0; padding: 0; }
+
+        html { -webkit-text-size-adjust: 100%; }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            line-height: 1.7;
-            color: var(--text);
-            background: var(--dark);
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.15) 0px, transparent 50%),
-                radial-gradient(at 0% 100%, rgba(99, 102, 241, 0.15) 0px, transparent 50%);
-            background-attachment: fixed;
+            font-family: var(--sans);
+            font-size: 17px;
+            line-height: 1.65;
+            color: var(--ink-2);
+            background: var(--bg);
             min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
         }
-        
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                linear-gradient(45deg, transparent 30%, rgba(99, 102, 241, 0.03) 50%, transparent 70%),
-                linear-gradient(-45deg, transparent 30%, rgba(236, 72, 153, 0.03) 50%, transparent 70%);
-            background-size: 60px 60px;
-            pointer-events: none;
-            z-index: 0;
-        }
-        
+
+        img { max-width: 100%; display: block; }
+
         .container {
-            max-width: 1400px;
+            width: 100%;
+            max-width: var(--wrap);
             margin: 0 auto;
-            padding: 0 2rem;
-            position: relative;
-            z-index: 1;
+            padding: 0 1.5rem;
         }
-        
+
+        /* Header */
         header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(20px) saturate(180%);
-            background: rgba(15, 23, 42, 0.8);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 1.5rem 0;
-            transition: all 0.3s ease;
+            border-bottom: 1px solid var(--line);
+            background: var(--bg);
         }
-        
+
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 1rem;
+            min-height: 72px;
         }
-        
-        .logo {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.75rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -0.5px;
-            position: relative;
+
+        .wordmark {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--ink);
             text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
+            letter-spacing: -0.01em;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
         }
-        
-        .logo:hover {
-            transform: scale(1.05);
-            text-decoration: none;
+
+        .wordmark-mark {
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            background: var(--ink);
+            color: var(--bg);
+            font-family: var(--serif);
+            font-size: 1rem;
+            display: grid;
+            place-items: center;
+            line-height: 1;
         }
-        
-        .logo::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 2px;
-            opacity: 0.5;
-            transition: opacity 0.3s ease;
-        }
-        
-        .logo:hover::after {
-            opacity: 1;
-        }
-        
-        .project-logo {
-            max-width: 200px;
-            max-height: 100px;
-            width: auto;
-            height: auto;
-            filter: brightness(0) invert(1);
-            margin-bottom: 1.5rem;
-            display: block;
-        }
-        
-        .project-logo.no-filter {
-            filter: none;
-        }
-        
-        .project-logo-small {
-            max-width: 150px;
-            max-height: 60px;
-            width: auto;
-            height: auto;
-            filter: brightness(0) invert(1);
-            margin-bottom: 1rem;
-            display: block;
-        }
-        
-        .project-logo-small.no-filter {
-            filter: none;
-        }
-        
+
+        .wordmark:hover { color: var(--ink); text-decoration: none; }
+
         nav ul {
             list-style: none;
             display: flex;
-            gap: 0.5rem;
+            gap: 1.75rem;
+            margin: 0;
         }
-        
-        nav li {
-            position: relative;
-        }
-        
+
+        nav ul li { margin: 0; }
+
         nav ul a {
-            color: var(--text);
+            color: var(--muted);
             text-decoration: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            position: relative;
+            font-size: 0.95rem;
             font-weight: 500;
-            display: block;
+            padding: 0.25rem 0;
+            border-bottom: 2px solid transparent;
         }
-        
-        nav ul a::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 12px;
-            padding: 2px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+
+        nav ul a:hover { color: var(--ink); text-decoration: none; }
+
+        nav ul a.active {
+            color: var(--ink);
+            border-bottom-color: var(--accent);
         }
-        
-        nav ul a:hover {
-            background: var(--glass);
-            color: var(--text);
-            transform: translateY(-2px);
-        }
-        
-        nav ul a:hover::before {
-            opacity: 1;
-        }
-        
+
         main {
-            min-height: calc(100vh - 300px);
-            padding: 4rem 0;
-            position: relative;
-            z-index: 1;
+            flex: 1;
+            padding: 4rem 0 5rem;
         }
-        
-        .content {
-            background: rgba(30, 41, 59, 0.4);
-            backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid var(--glass-border);
-            padding: 3rem;
-            border-radius: 24px;
-            box-shadow: 
-                0 20px 25px -5px rgba(0, 0, 0, 0.3),
-                0 10px 10px -5px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .content::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
-            opacity: 0.5;
-        }
-        
-        h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--text), var(--text-muted));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1.5rem;
-            letter-spacing: -1px;
-            line-height: 1.2;
-        }
-        
-        h2 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2rem;
-            font-weight: 600;
-            color: var(--text);
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            position: relative;
-            padding-bottom: 0.75rem;
-        }
-        
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 2px;
-        }
-        
-        h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--text);
-            margin-top: 2rem;
-            margin-bottom: 0.75rem;
-        }
-        
-        p {
-            color: var(--text-muted);
-            margin-bottom: 1.25rem;
-            font-size: 1.05rem;
-        }
-        
-        a {
-            color: var(--accent);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        
-        a:hover {
-            color: var(--primary);
-            text-decoration: underline;
-        }
-        
-        footer {
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(20px) saturate(180%);
-            border-top: 1px solid var(--glass-border);
-            color: var(--text-muted);
-            text-align: center;
-            padding: 2.5rem 0;
-            margin-top: 4rem;
-            position: relative;
-            z-index: 1;
-        }
-        
-        footer a {
-            color: var(--accent);
-        }
-        
-        footer a:hover {
-            color: var(--primary);
-        }
-        
-        .btn {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            text-decoration: none;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
-        }
-        
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
-        }
-        
-        .btn:hover::before {
-            left: 100%;
-        }
-        
-        .btn:active {
-            transform: translateY(0);
-        }
-        
-        form {
-            max-width: 600px;
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 0.75rem;
+
+        /* Type */
+        h1, h2, h3 {
+            font-family: var(--serif);
+            color: var(--ink);
             font-weight: 500;
-            color: var(--text);
+            letter-spacing: -0.015em;
+            line-height: 1.15;
         }
-        
-        input[type="text"],
-        input[type="email"],
-        textarea {
-            width: 100%;
-            padding: 1rem;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            font-size: 1rem;
-            font-family: inherit;
-            color: var(--text);
-            transition: all 0.3s ease;
+
+        h1 { font-size: clamp(2.2rem, 4.5vw, 3.2rem); margin-bottom: 1rem; }
+        h2 { font-size: 1.75rem; margin-bottom: 1rem; }
+        h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+
+        p { margin-bottom: 1rem; }
+        p:last-child { margin-bottom: 0; }
+
+        a { color: var(--accent); text-underline-offset: 3px; }
+        a:hover { color: var(--ink); }
+
+        ul, ol { margin: 0 0 1rem 1.25rem; }
+        li { margin-bottom: 0.4rem; }
+
+        .eyebrow {
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            margin-bottom: 0.75rem;
+            display: block;
         }
-        
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-            background: rgba(15, 23, 42, 0.8);
+
+        .lede {
+            font-size: 1.2rem;
+            color: var(--muted);
+            max-width: 40em;
         }
-        
-        textarea {
-            resize: vertical;
-            min-height: 150px;
+
+        .section { margin-top: 4.5rem; }
+
+        .section-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 1rem;
+            border-bottom: 1px solid var(--ink);
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
         }
-        
-        ul, ol {
-            margin-left: 2rem;
-            margin-bottom: 1.25rem;
-            color: var(--text-muted);
+
+        .section-head h2 { margin: 0; }
+        .section-head a { font-size: 0.95rem; }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
+            border: 1px solid var(--ink);
+            background: var(--ink);
+            color: var(--bg);
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-decoration: none;
+            line-height: 1.2;
+            transition: background 0.15s ease, color 0.15s ease;
         }
-        
-        li {
-            margin-bottom: 0.5rem;
+
+        .btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; text-decoration: none; }
+
+        .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
+        .btn-ghost:hover { background: var(--surface); color: var(--ink); border-color: var(--ink); }
+
+        .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+        /* Tags / status */
+        .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; margin: 0; }
+        .tags li {
+            margin: 0;
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            color: var(--ink-2);
+            background: var(--bg);
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            padding: 0.1rem 0.45rem;
         }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+
+        .status {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            color: var(--muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            white-space: nowrap;
         }
-        
-        @keyframes gradient-shift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        .status::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--line-strong);
         }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 1rem;
-            }
-            
-            nav {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .content {
-                padding: 2rem 1.5rem;
-            }
+        .status-live { color: var(--ok); }
+        .status-live::before { background: var(--ok); }
+        .status-in-development::before { background: #c28a12; }
+
+        /* Profile photo: the source image is a circle on a dark square, so it's always shown masked to a circle */
+        .avatar {
+            border-radius: 50%;
+            object-fit: cover;
+            aspect-ratio: 1;
+            background: var(--line);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--line);
+            padding: 2rem 0;
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+        footer a { color: var(--muted); text-decoration: none; }
+        footer a:hover { color: var(--ink); text-decoration: underline; }
+
+        @media (max-width: 640px) {
+            body { font-size: 16px; }
+            main { padding: 2.5rem 0 3.5rem; }
+            nav { min-height: 64px; }
+            nav ul { gap: 1.1rem; }
+            .wordmark-text { display: none; }
+            .section { margin-top: 3rem; }
         }
     </style>
     {% block extra_css %}{% endblock %}
@@ -441,30 +278,37 @@
     <header>
         <div class="container">
             <nav>
-                <a href="{% url 'home' %}" class="logo">Jericho Software</a>
+                <a href="{% url 'home' %}" class="wordmark" aria-label="Jericho Software home">
+                    <span class="wordmark-mark" aria-hidden="true">J</span>
+                    <span class="wordmark-text">Jericho Software</span>
+                </a>
+                {% with url_name=request.resolver_match.url_name %}
                 <ul>
-                    <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'projects' %}">Projects</a></li>
-                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'home' %}" {% if url_name == 'home' %}class="active"{% endif %}>Home</a></li>
+                    <li><a href="{% url 'projects' %}" {% if url_name == 'projects' or url_name == 'project_detail' %}class="active"{% endif %}>Projects</a></li>
+                    <li><a href="{% url 'about' %}" {% if url_name == 'about' %}class="active"{% endif %}>About</a></li>
                 </ul>
+                {% endwith %}
             </nav>
         </div>
     </header>
-    
+
     <main>
         <div class="container">
-            <div class="content">
-                {% block content %}{% endblock %}
-            </div>
+            {% block content %}{% endblock %}
         </div>
     </main>
-    
+
     <footer>
-        <div class="container">
-            <p>&copy; {% now "Y" %} Jericho Software. All rights reserved. | <a href="{% url 'privacy_policy' %}">Privacy Policy</a></p>
+        <div class="container footer-inner">
+            <span>&copy; {% now "Y" %} Jericho Software · California</span>
+            <div class="footer-links">
+                <a href="mailto:contact@jerichosoftware.com">contact@jerichosoftware.com</a>
+                <a href="{% url 'privacy_policy' %}">Privacy</a>
+            </div>
         </div>
     </footer>
-    
+
     {% block extra_js %}{% endblock %}
 </body>
 </html>

@@ -1,12 +1,6 @@
-Place your logo files in this directory:
+Images used by the site templates. Reference them with {% static %}.
 
-Required files:
-- ttp-logo.png (TTP Appointments logo)
-- willo-logo.png (Willo Decisions logo)
-- logo.png (Magic Dining Alerts logo)
+- eli.jpg: profile photo (square crop; shown as a circle)
+- retireplanai-logo.png, ttp-logo.png, willo-logo.png, magic-dining-logo.png: project logos
 
-The logos will automatically be converted to white to match the dark theme.
-
-
-
-
+Avoid spaces in filenames.

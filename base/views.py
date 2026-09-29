@@ -1,261 +1,378 @@
 from django.shortcuts import render
 from django.http import Http404
 
+
+# Every project lives here once; the list page, detail page, home page and
+# about page all read from it. Order = display order.
+PROJECTS = [
+    {
+        'slug': 'retireplanai',
+        'name': 'RetirePlanAI',
+        'url': 'https://retireplanai.com',
+        'logo': 'base/images/retireplanai-logo.png',
+        'status': 'Live',
+        'featured': True,
+        'summary': 'Retirement planning software with Monte Carlo simulations, tax-aware projections and an AI coach you can talk to about your plan.',
+        'tagline': 'Plan your retirement with confidence, before you retire.',
+        'stack': ['Django', 'Python', 'Stripe', 'MCP'],
+        'description': [
+            'RetirePlanAI started while I was helping family members work through real retirement decisions. The tools we found were either too simple to trust or too opaque to understand, so I built one that shows its work.',
+            'You enter your accounts, income, spending and goals once, and it projects your plan year by year: taxes, Required Minimum Distributions, Social Security, Roth conversions and withdrawals. Then it stress-tests that plan against 5,000 simulated markets and every historical period since 1928. An AI coach sits on top of all of it, so you can ask plain-English questions about your own numbers.',
+            'It\'s built for people planning their own retirement, not for selling financial products. There\'s also a plan for financial advisors who want to bring clients onto the platform under their own branding.',
+        ],
+        'highlights': [
+            ('5,000', 'Monte Carlo scenarios per simulation'),
+            ('1928–2024', 'historical market data for backtesting'),
+            ('81', 'Social Security claiming-age combinations compared'),
+            ('50 + DC', 'states modeled for income tax'),
+        ],
+        'feature_groups': [
+            {
+                'title': 'Planning',
+                'items': [
+                    'AI retirement coach that answers questions about your plan in plain English',
+                    'Readiness score built from five parts: Monte Carlo success, portfolio sustainability, income adequacy, savings rate and tax diversification',
+                    'Projected portfolio value at your target retirement age, with year-by-year growth',
+                    'Up to 20 what-if scenarios compared side by side',
+                    'Guided setup in about 15 minutes',
+                ],
+            },
+            {
+                'title': 'Income & withdrawals',
+                'items': [
+                    'Social Security, pensions, rental income and dividends, adjusted for inflation',
+                    'Monte Carlo odds of success with P10 / P50 / P90 outcomes',
+                    'Historical backtest heatmap across every decade since 1928',
+                    'Five withdrawal strategies: the 4% rule, spend-more-early, market-based, Guyton-Klinger guardrails and Vanguard dynamic spending, all on one chart',
+                    'Early-retirement bridge to age 59½: penalty-free accounts, Roth conversion ladders and Rule 72(t)',
+                ],
+            },
+            {
+                'title': 'Taxes',
+                'items': [
+                    'Federal tax from the actual IRS brackets for your filing status',
+                    'State income tax for all 50 states plus DC',
+                    'Social Security taxation based on provisional income, and FICA per spouse',
+                    'RMD projections by account type (age 73 or 75)',
+                    'Roth conversion planner showing tax cost per year and lifetime savings',
+                    'Social Security optimizer across all 81 claiming-age combinations, including spousal and survivor benefits',
+                ],
+            },
+            {
+                'title': 'Tools & integrations',
+                'items': [
+                    'Annuity modeling: SPIAs, deferred income annuities and QLACs',
+                    'Budget phases for different stages of life, plus one-time expenses and debt',
+                    'Contribution tracking for every account',
+                    'Net worth, cash flow and income reports, plus a 9-page PDF export',
+                    'Monarch Money import to update every balance from one CSV',
+                    'AI connector: link Claude or ChatGPT to your plan with a read-only, revocable OAuth sign-in',
+                ],
+            },
+        ],
+        'plans': [
+            {
+                'name': 'Free',
+                'price': '$0',
+                'period': 'forever',
+                'features': [
+                    'Interactive retirement dashboard',
+                    'Portfolio & account tracking',
+                    'Income stream planning',
+                    'Expense budgeting',
+                    '5 AI coach conversations',
+                    '1 Monte Carlo simulation',
+                    'No credit card required',
+                ],
+            },
+            {
+                'name': 'Unlimited',
+                'price': '$9.99',
+                'period': 'per month',
+                'highlight': True,
+                'features': [
+                    'Everything in Free',
+                    'More AI coach conversations',
+                    'Unlimited Monte Carlo simulations',
+                    'Detailed financial reports',
+                    'Up to 20 what-if scenarios',
+                    'Connect Claude or ChatGPT to your plan',
+                    'Priority support',
+                    'Cancel anytime',
+                ],
+            },
+            {
+                'name': 'Financial Advisor',
+                'price': 'Custom',
+                'period': 'based on practice size',
+                'features': [
+                    'Bring your clients onto the platform',
+                    'Your firm\'s branding',
+                ],
+            },
+        ],
+        'how_it_works': [
+            'Enter your age, retirement goal and spending target',
+            'Add your accounts, contributions and income sources, or import balances from Monarch Money',
+            'See your readiness score, cash flow and year-by-year projection',
+            'Run Monte Carlo and historical simulations to see how the plan holds up',
+            'Try what-if scenarios and ask the AI coach what would change the outcome',
+        ],
+        'faqs': [
+            {
+                'question': 'Who is RetirePlanAI for?',
+                'answer': 'People planning their own retirement, whether you\'re just starting to think about it or a few years out. There\'s also a separate plan for financial advisors.',
+            },
+            {
+                'question': 'Is it free?',
+                'answer': 'Yes. The Free plan includes the dashboard, account tracking, income and expense planning, 5 AI coach conversations and 1 Monte Carlo simulation, with no credit card. The Unlimited plan is $9.99/month.',
+            },
+            {
+                'question': 'Can I use it with Claude or ChatGPT?',
+                'answer': 'Yes. The Unlimited plan includes an AI connector that lets Claude or ChatGPT read your plan through a secure OAuth sign-in. Access is read-only and you can revoke it at any time.',
+            },
+            {
+                'question': 'What happens to my data?',
+                'answer': 'It\'s protected with industry-standard security, and payments go through Stripe. Your data is never sold or shared with third parties.',
+            },
+            {
+                'question': 'Is this financial advice?',
+                'answer': 'No. RetirePlanAI is for informational and planning purposes only.',
+            },
+        ],
+    },
+    {
+        'slug': 'ttp-appointments',
+        'name': 'TTP Appointments',
+        'url': 'https://ttpappointments.com',
+        'logo': 'base/images/ttp-logo.png',
+        'status': 'Live',
+        'year': '2023',
+        'featured': True,
+        'summary': 'Email and text alerts the moment a Global Entry interview slot opens up.',
+        'tagline': 'Get alerted when Global Entry interview appointments open up.',
+        'stack': ['Django', 'Python', 'Stripe', 'Twilio'],
+        'description': [
+            'I built TTP Appointments in high school, in February 2023. Getting a Global Entry interview meant refreshing the government scheduler over and over, so I wrote something to do it for me.',
+            'It checks the Trusted Traveler Program scheduler around the clock and sends an email and text as soon as a slot opens at the enrollment centers you pick. You still book the appointment yourself on the official site.',
+        ],
+        'features': [
+            'Free alert with no credit card and no charges',
+            'One month of alerts, no recurring charges',
+            'Email and text message alerts',
+            'Auto-reactivating alerts',
+            'Custom date range',
+            '100% satisfaction guaranteed or your money back',
+        ],
+        'plans': [
+            {
+                'name': 'Free',
+                'price': '$0',
+                'period': 'one alert',
+                'features': [
+                    'Choose up to 1 enrollment center',
+                    'All enrollment centers supported',
+                    'Up to 3 email alerts',
+                    'No credit card required',
+                    'Upgrade anytime',
+                ],
+            },
+            {
+                'name': 'Paid',
+                'price': '$24.99',
+                'period': 'one-time',
+                'highlight': True,
+                'features': [
+                    'Choose up to 5 enrollment centers',
+                    'All enrollment centers supported',
+                    'Unlimited email and text alerts',
+                    'Auto-reactivating alerts',
+                    'Custom date range',
+                    'No recurring payments',
+                    '100% satisfaction guaranteed or your money back',
+                ],
+            },
+        ],
+        'how_it_works': [
+            'Create an alert for the enrollment centers you want',
+            'TTP Appointments checks for openings 24/7',
+            'You get an email and text when an interview slot opens',
+            'Book the appointment directly on the Trusted Traveler Program website',
+        ],
+        'faqs': [
+            {
+                'question': 'How does TTP Appointments work?',
+                'answer': 'It checks for openings 24/7 and sends you an email and text when an interview appointment becomes available at the centers you chose. You then book the appointment directly on the Trusted Traveler Program website. The free plan includes up to 3 email alerts.',
+            },
+            {
+                'question': 'Am I guaranteed to get an appointment at the enrollment center I choose?',
+                'answer': 'No. It checks every 5 minutes and notifies you when there\'s an opening, but someone else may book the slot before you do.',
+            },
+            {
+                'question': 'Will the alert book my appointment?',
+                'answer': 'No. After you get an alert, it\'s up to you to make the appointment.',
+            },
+            {
+                'question': 'Are you affiliated with the US Government or the Trusted Traveler Program?',
+                'answer': 'No. TTP Appointments is an independent service and is not affiliated with the US Government or the Trusted Traveler Program.',
+            },
+        ],
+        'featured_in': ['The Points Guy', 'NerdWallet', 'Patch News', 'Livermore Independent'],
+    },
+    {
+        'slug': 'willo-decisions',
+        'name': 'Willo Decisions',
+        'url': 'https://willodecisions.com',
+        'logo': 'base/images/willo-logo.png',
+        'status': 'Live',
+        'year': '2024',
+        'featured': True,
+        'summary': 'Group decision-making using the Choosing By Advantages method.',
+        'tagline': 'Sharpen thinking. Simplify deciding. Rest easy.',
+        'stack': ['Django', 'Python', 'REST APIs'],
+        'description': [
+            'I built Willo in May 2024, the summer between high school and community college. It\'s a tool for making decisions as a group using Choosing By Advantages (CBA).',
+            'Instead of weighted scores, CBA has you compare the actual advantages of each option. In Willo you set up a project with your factors and options, invite collaborators, and work through the comparison together with charts that show where things landed.',
+        ],
+        'features': [
+            'Collaborative decision-making projects',
+            'Choosing By Advantages (CBA) method',
+            'Invite unlimited collaborators by email',
+            'Charts and graphs of the decision',
+            'Custom factors and options',
+            'Revisit and adjust decisions at any time',
+        ],
+        'how_it_works': [
+            'Create a project with your decision factors and options',
+            'Invite collaborators by email',
+            'Identify and compare the advantages of each option',
+            'Review the charts to see how the options stack up',
+            'Adjust rankings as your thinking changes',
+        ],
+        'faqs': [
+            {
+                'question': 'What is the Choosing By Advantages (CBA) method?',
+                'answer': 'CBA focuses on identifying and comparing the advantages of each option rather than relying only on numerical scores, so decisions are based on real benefits and trade-offs.',
+            },
+            {
+                'question': 'How do I invite collaborators?',
+                'answer': 'Add their email addresses in the project settings and share the project link. Once they join, they can contribute to the decision.',
+            },
+            {
+                'question': 'How is Willo different from a decision matrix?',
+                'answer': 'Traditional decision matrices rely on numerical scores and weights. Willo uses CBA, which compares the advantages of each option directly.',
+            },
+            {
+                'question': 'Can I change my decisions later?',
+                'answer': 'Yes. You can go back to earlier steps, change your rankings and update the project whenever you need to.',
+            },
+            {
+                'question': 'Is there a limit on collaborators?',
+                'answer': 'No. You can invite as many people as you need.',
+            },
+        ],
+    },
+    {
+        'slug': 'magic-dining-alerts',
+        'name': 'Magic Dining Alerts',
+        'url': '',
+        'logo': 'base/images/magic-dining-logo.png',
+        'logo_on_dark': True,  # white logo, needs a dark backdrop
+        'status': 'Offline',
+        'summary': 'Alerts for hard-to-get Walt Disney World and Disneyland dining reservations.',
+        'tagline': 'Notifications for Walt Disney restaurant reservations.',
+        'stack': ['Django', 'Python', 'REST APIs'],
+        'description': [
+            'Magic Dining Alerts watched Disney restaurant availability and sent an alert when a reservation opened up at the restaurants you picked, so you could book it through Disney before it was gone.',
+        ],
+        'features': [
+            'Email and SMS notifications',
+            'Real-time reservation alerts',
+            'Monitor multiple restaurants at once',
+            'Quick sign-up',
+        ],
+        'how_it_works': [
+            'Sign up for alerts on specific Disney restaurants',
+            'The service monitors reservation availability',
+            'You get a notification when a reservation opens',
+            'Book directly through Disney',
+        ],
+        'faqs': [
+            {
+                'question': 'Which Disney restaurants were supported?',
+                'answer': 'All Walt Disney World and Disneyland restaurants that accept reservations through the Disney dining system.',
+            },
+        ],
+    },
+    {
+        'slug': 'ai-bible-guide',
+        'name': 'AI Bible Guide',
+        'url': '',
+        'logo': None,
+        'status': 'In development',
+        'summary': 'A native iOS app for reading scripture with AI-powered explanations and context.',
+        'tagline': 'Read scripture with explanations and context alongside.',
+        'stack': ['Swift', 'Firebase', 'OpenAI'],
+        'description': [
+            'AI Bible Guide is a native iOS app I\'m building for reading and studying the Bible. Tap a verse to get an explanation, historical context and how it connects to the rest of scripture, or ask your own questions as you read.',
+        ],
+        'features': [
+            'Verse explanations and historical context',
+            'Ask questions while you read',
+            'Personalized study suggestions',
+            'Search across scripture',
+            'Save favorite verses and notes',
+            'Sync across iPhone and iPad with Firebase',
+        ],
+        'how_it_works': [
+            'Browse books, chapters and verses',
+            'Tap any verse for an explanation',
+            'Ask follow-up questions',
+            'Save verses and notes and pick up on any device',
+        ],
+        'faqs': [
+            {
+                'question': 'What Bible translations are available?',
+                'answer': 'The app will include several popular translations. More details once it launches.',
+            },
+            {
+                'question': 'Is this a native iOS app?',
+                'answer': 'Yes. It\'s written in Swift for iPhone and iPad.',
+            },
+        ],
+    },
+]
+
+PROJECTS_BY_SLUG = {p['slug']: p for p in PROJECTS}
+
+
 def home(request):
     """Home page view"""
     context = {
         'title': 'Home',
-        'page_title': 'Welcome to Jericho Software'
+        'projects': PROJECTS,
     }
     return render(request, 'base/home.html', context)
 
 def projects(request):
     """Projects listing page view"""
-    projects_list = [
-        {
-            'slug': 'ttp-appointments',
-            'name': 'TTP Appointments',
-            'url': 'https://ttpappointments.com',
-            'description': 'Sign up for TTP Appointment Interview Alerts and receive automatic email and text notifications for Global Entry interview appointments. Built with Django, Python, REST APIs, Stripe SDK for payments, and Twilio for SMS notifications.',
-            'featured': True,
-            'logo': 'base/images/ttplogo copy.png'
-        },
-        {
-            'slug': 'willo-decisions',
-            'name': 'Willo Decisions',
-            'url': 'https://willodecisions.com',
-            'description': 'An interactive platform for collaborative decision-making using the Choosing By Advantages (CBA) method. Built with Django, Python, and REST APIs.',
-            'featured': True,
-            'logo': 'base/images/willoLogo copy.png'
-        },
-        {
-            'slug': 'magic-dining-alerts',
-            'name': 'Magic Dining Alerts',
-            'url': '#',
-            'description': 'A notification service for Walt Disney restaurant reservations, helping users secure hard-to-get dining spots. Built with Django, Python, and REST APIs.',
-            'featured': False,
-            'logo': 'base/images/logo copy.png'
-        },
-        {
-            'slug': 'ai-bible-guide',
-            'name': 'AI Bible Guide',
-            'url': '#',
-            'description': 'A native iOS app that uses AI to help users understand and explore scripture. Built with Swift, Firebase, and OpenAI.',
-            'featured': False,
-            'logo': None
-        }
-    ]
     context = {
         'title': 'Projects',
-        'page_title': 'My Projects',
-        'projects': projects_list
+        'page_title': 'Projects',
+        'projects': PROJECTS,
     }
     return render(request, 'base/projects.html', context)
 
 def project_detail(request, project_slug):
     """Individual project detail page view"""
-    projects_data = {
-        'ttp-appointments': {
-            'name': 'TTP Appointments',
-            'url': 'https://ttpappointments.com',
-            'logo': 'base/images/ttplogo copy.png',
-            'tagline': 'Sign Up Now for TTP Appointment Interview Alerts',
-            'description': 'Sign up now for TTP Appointment Interview Alerts and receive automatic email and text notifications as soon as Global Entry interview appointment slots become available. Stay ahead with our Trusted Traveler Program alerts and never miss your chance to secure a Global Entry appointment. Built with Django, Python, REST APIs, Stripe SDK for payment processing, and Twilio for SMS notifications.',
-            'features': [
-                'Free Alert with No Credit Card and No Charges',
-                'One Month of Alerts, No Recurring Charges',
-                'Email and Text Message Alerts',
-                'Auto-reactivating Alerts',
-                'Custom Date Range',
-                '100% satisfaction guaranteed or your money back'
-            ],
-            'pricing': {
-                'free': {
-                    'price': 'FREE',
-                    'features': [
-                        'Choose up to 1 enrollment center',
-                        'All enrollment centers supported',
-                        'Maximum of 3 Email Alerts',
-                        'No credit card required',
-                        'Upgrade Anytime'
-                    ]
-                },
-                'paid': {
-                    'price': '$24.99',
-                    'features': [
-                        'Choose up to 5 enrollment centers',
-                        'All enrollment centers supported',
-                        'Unlimited Alerts',
-                        'Email Alerts',
-                        'Text Message Alerts',
-                        'Auto-reactivating Alerts',
-                        'Custom Date Range',
-                        'No recurring payments',
-                        '100% satisfaction guaranteed or your money back'
-                    ]
-                }
-            },
-            'how_it_works': [
-                'TTP Appointments searches 24/7 automatically',
-                'Receive notifications by email and text when an interview appointment becomes available',
-                'Create an alert for your wanted appointment',
-                'Secure your appointment interview directly on the Trusted Traveler Program website'
-            ],
-            'faqs': [
-                {
-                    'question': 'How does TTP Appointments work?',
-                    'answer': 'TTP Appointments searches 24/7 automatically and will send you notifications by email and text when an interview appointment becomes available. To get notified, you need to create an alert for the wanted appointment. You will then secure your appointment interview directly on the Trusted Traveler Program website. For the free plan, you will receive up to 3 email alerts.'
-                },
-                {
-                    'question': 'Am I guaranteed to get an appointment interview at the enrollment center I choose?',
-                    'answer': 'No, TTP Appointments cannot guarantee that. We promise to use our service and check every 5 minutes for openings and notify you by email and text when there is an opening. Even if you get the notification, another person may book that slot before you reserve it.'
-                },
-                {
-                    'question': 'Will the Alert book my appointment interview?',
-                    'answer': 'No, the alert does not book your appointment interview. After you receive an alert, it is up to you to make the appointment.'
-                },
-                {
-                    'question': 'Are you affiliated with the US Government or the Trusted Traveler Program?',
-                    'answer': 'No, we are not in any way affiliated with the US Government or the Trusted Traveler Program. We just provide a service to make sure you can secure hard to get interview appointments.'
-                }
-            ],
-            'featured_in': ['The Points Guy', 'Patch News', 'Livermore Independent']
-        },
-        'willo-decisions': {
-            'name': 'Willo Decisions',
-            'url': 'https://willodecisions.com',
-            'logo': 'base/images/willoLogo copy.png',
-            'tagline': 'Sharpen thinking. Simplify deciding. Rest easy.',
-            'description': 'Willo provides an interactive platform for collaborative decision-making, utilizing the Choosing By Advantages (CBA) method to prioritize the most significant advantages of each option. Users can create projects, invite collaborators, and visualize decision-making through interactive charts and graphs. Built with Django, Python, and REST APIs.',
-            'features': [
-                'Interactive platform for collaborative decision-making',
-                'Choosing By Advantages (CBA) method',
-                'Create projects and invite collaborators',
-                'Visualize decisions through interactive charts and graphs',
-                'Customize factors and options',
-                'Unlimited collaborators',
-                'Adjust decisions at any time'
-            ],
-            'how_it_works': [
-                'Create a project with your decision factors and options',
-                'Invite collaborators by email',
-                'Use the CBA method to identify and compare qualitative advantages',
-                'Visualize the decision-making process through interactive charts',
-                'Adjust rankings and decisions as needed'
-            ],
-            'faqs': [
-                {
-                    'question': 'How does Willo work?',
-                    'answer': 'Willo provides an interactive platform for collaborative decision-making, utilizing the Choosing By Advantages (CBA) method to prioritize the most significant advantages of each option. Users can create projects, invite collaborators, and visualize decision-making through interactive charts and graphs.'
-                },
-                {
-                    'question': 'What is the Choosing By Advantages (CBA) method?',
-                    'answer': 'The CBA method focuses on identifying and comparing the qualitative advantages of each option rather than relying solely on numerical scores. This approach ensures that decisions are based on the actual benefits and trade-offs of each option, leading to more informed and effective outcomes.'
-                },
-                {
-                    'question': 'How can I invite collaborators to my project?',
-                    'answer': 'You can invite collaborators to your project by adding their email addresses in the project settings. Invited collaborators can join once you give them the project link, then they can join the project and contribute to the decision-making process.'
-                },
-                {
-                    'question': 'What makes Willo different from other decision matrices?',
-                    'answer': 'Willo stands out due to its unique implementation of the Choosing By Advantages (CBA) method. Unlike traditional decision matrices that often rely solely on numerical scores and weights, CBA focuses on the qualitative advantages of each option. This approach ensures more informed and effective outcomes by considering the actual benefits and trade-offs of each option.'
-                },
-                {
-                    'question': 'Can I change my decisions after submitting them?',
-                    'answer': 'Yes, you can go back and adjust your decisions at any time. Willo allows you to revisit previous steps, modify your rankings, and update your project as needed to ensure the best possible outcomes.'
-                },
-                {
-                    'question': 'Is there a limit to the number of collaborators I can invite?',
-                    'answer': 'No, there is no limit to the number of collaborators you can invite to your project. You can include as many team members as needed to ensure a comprehensive evaluation of all factors and options.'
-                }
-            ]
-        },
-        'magic-dining-alerts': {
-            'name': 'Magic Dining Alerts',
-            'url': '#',
-            'logo': 'base/images/logo copy.png',
-            'tagline': 'Notification Service for Walt Disney Restaurant Reservations',
-            'description': 'Magic Dining Alerts is a notification service designed to help users secure hard-to-get Walt Disney restaurant reservations. The service sends alerts when dining reservations become available. Built with Django, Python, and REST APIs.',
-            'features': [
-                'Email and SMS notifications',
-                'Real-time reservation alerts',
-                'Multiple restaurant monitoring',
-                'Easy sign-up process'
-            ],
-            'how_it_works': [
-                'Users sign up for alerts on specific Disney restaurants',
-                'The service monitors reservation availability',
-                'Users receive notifications when reservations open',
-                'Users can then book directly through Disney\'s system'
-            ],
-            'faqs': [
-                {
-                    'question': 'How does Magic Dining Alerts work?',
-                    'answer': 'Magic Dining Alerts monitors Disney restaurant availability and sends you notifications when reservations become available for your selected restaurants.'
-                },
-                {
-                    'question': 'Which Disney restaurants are supported?',
-                    'answer': 'Magic Dining Alerts supports all Walt Disney World and Disneyland restaurants that accept reservations through the Disney dining system.'
-                }
-            ]
-        },
-        'ai-bible-guide': {
-            'name': 'AI Bible Guide',
-            'url': '#',
-            'logo': None,
-            'tagline': 'AI-Powered Bible Study and Exploration',
-            'description': 'AI Bible Guide is a native iOS app that uses artificial intelligence to help users understand and explore scripture. Get AI-powered verse explanations, contextual insights, and personalized study guidance. Built with Swift, Firebase for backend services, and OpenAI for AI capabilities.',
-            'features': [
-                'AI verse explanations and interpretations',
-                'Contextual insights powered by OpenAI',
-                'Interactive Bible reading experience',
-                'Personalized study recommendations',
-                'Search and explore scripture with AI assistance',
-                'Native iOS app with smooth performance',
-                'Cloud sync with Firebase'
-            ],
-            'how_it_works': [
-                'Download the app from the App Store',
-                'Navigate through Bible books, chapters, and verses',
-                'Tap on any verse to get AI-powered explanations',
-                'Ask questions and get contextual insights',
-                'Save your favorite verses and AI explanations',
-                'Sync your progress across devices with Firebase'
-            ],
-            'faqs': [
-                {
-                    'question': 'How does the AI verse explanation work?',
-                    'answer': 'The app uses OpenAI to provide detailed explanations and contextual insights for Bible verses, helping you understand the meaning, historical context, and application of scripture.'
-                },
-                {
-                    'question': 'What Bible translations are available?',
-                    'answer': 'The app includes multiple popular Bible translations. More details coming soon as the app is finalized.'
-                },
-                {
-                    'question': 'Is this a native iOS app?',
-                    'answer': 'Yes, AI Bible Guide is built as a native iOS app using Swift, providing optimal performance and a smooth user experience on iPhone and iPad.'
-                },
-                {
-                    'question': 'What technologies power the app?',
-                    'answer': 'The app is built with Swift for the iOS interface, Firebase for backend services and data synchronization, and OpenAI for AI-powered verse explanations and insights.'
-                }
-            ],
-            'coming_soon': True
-        }
-    }
-    
-    # Validate project_slug to prevent potential issues
-    if not project_slug or not isinstance(project_slug, str):
-        raise Http404("Invalid project identifier")
-    
-    project = projects_data.get(project_slug)
+    project = PROJECTS_BY_SLUG.get(project_slug)
     if not project:
-        raise Http404(f"Project '{project_slug}' not found. Please check the URL and try again.")
-    
+        raise Http404(f"Project '{project_slug}' not found.")
+
     context = {
         'title': project['name'],
         'page_title': project['name'],
-        'project': project
+        'project': project,
     }
     return render(request, 'base/project_detail.html', context)
 
@@ -263,7 +380,8 @@ def about(request):
     """About page view"""
     context = {
         'title': 'About',
-        'page_title': 'About Me'
+        'page_title': 'About',
+        'projects': PROJECTS,
     }
     return render(request, 'base/about.html', context)
 

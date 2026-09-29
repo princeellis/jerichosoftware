@@ -33,8 +33,8 @@ if os.environ.get("RAILWAY_ENVIRONMENT") is None:
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # In Railway, set SECRET_KEY as an environment variable
-# Fallback is only for local development - NEVER use in production
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-!fmhu0e@4x3m0p93w(=mx2a#zjg=_om*pczyjzqnu&wwpbbx-v')
+# Must be set via environment variable - no fallback
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG is True in development, False in production
@@ -72,6 +72,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -148,6 +149,14 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# WhiteNoise serves static files (images, etc.) in production where DEBUG=False.
+# USE_FINDERS lets it serve straight from app static dirs even if collectstatic didn't run.
+STORAGES = {
+    'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
+    'staticfiles': {'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage'},
+}
+WHITENOISE_USE_FINDERS = True
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

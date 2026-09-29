@@ -2,79 +2,12 @@
 
 {% block extra_css %}
 <style>
-    .privacy-content {
-        max-width: 900px;
-        margin: 0 auto;
-    }
-    
-    .privacy-content h2 {
-        color: var(--text);
-        margin-top: 2.5rem;
-        margin-bottom: 1rem;
-        font-size: 1.75rem;
-        padding-bottom: 0.75rem;
-        position: relative;
-    }
-    
-    .privacy-content h2::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 60px;
-        height: 3px;
-        background: linear-gradient(90deg, var(--primary), var(--secondary));
-        border-radius: 2px;
-    }
-    
-    .privacy-content h3 {
-        color: var(--text);
-        margin-top: 1.5rem;
-        margin-bottom: 0.75rem;
-        font-size: 1.3rem;
-    }
-    
-    .privacy-content p {
-        margin-bottom: 1.25rem;
-        text-align: justify;
-        color: var(--text-muted);
-    }
-    
-    .privacy-content ul, .privacy-content ol {
-        margin-left: 2rem;
-        margin-bottom: 1.25rem;
-        color: var(--text-muted);
-    }
-    
-    .privacy-content li {
-        margin-bottom: 0.75rem;
-    }
-    
-    .last-updated {
-        font-style: italic;
-        color: var(--text-muted);
-        margin-bottom: 2rem;
-        padding-bottom: 1rem;
-        border-bottom: 1px solid var(--glass-border);
-    }
-    
-    .contact-info {
-        background: rgba(30, 41, 59, 0.4);
-        backdrop-filter: blur(10px);
-        border: 1px solid var(--glass-border);
-        padding: 2rem;
-        border-radius: 20px;
-        margin-top: 2rem;
-        border-top: 3px solid var(--accent);
-    }
-    
-    .contact-info p {
-        color: var(--text-muted);
-    }
-    
-    .contact-info strong {
-        color: var(--text);
-    }
+    .privacy-content { max-width: 46rem; }
+    .privacy-content h2 { font-size: 1.4rem; margin-top: 2.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--line); }
+    .privacy-content h3 { font-size: 1.15rem; margin-top: 1.5rem; }
+    .last-updated { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); margin-bottom: 2rem; }
+    .contact-info { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.5rem; margin: 1rem 0; }
+    .contact-info strong { color: var(--ink); }
 </style>
 {% endblock %}
 
@@ -245,7 +178,7 @@
     
     <p><strong>This Privacy Policy is effective as of {% now "F d, Y" %} and will remain in effect except with respect to any changes in its provisions in the future, which will be in effect immediately after being posted on this page.</strong></p>
     
-    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid #ddd;">
+    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line);">
         <a href="{% url 'home' %}" class="btn">Back to Home</a>
     </div>
 </div>

@@ -1,387 +1,243 @@
 {% extends 'base/base.html' %}
 {% load static %}
 
+{% block meta_description %}{{ project.name }}: {{ project.summary }}{% endblock %}
+
 {% block extra_css %}
 <style>
-    .project-header {
-        border-bottom: 2px solid var(--glass-border);
-        padding-bottom: 2rem;
-        margin-bottom: 2.5rem;
-        position: relative;
-    }
-    
-    .project-header::after {
-        content: '';
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 100px;
-        height: 2px;
-        background: linear-gradient(90deg, var(--primary), var(--secondary));
-        border-radius: 2px;
-    }
-    
-    .project-header h1 {
-        margin-bottom: 0.75rem;
-    }
-    
-    .project-tagline {
-        font-size: 1.3rem;
-        color: var(--text-muted);
-        font-style: italic;
-        margin-bottom: 1.5rem;
-        font-weight: 400;
-    }
-    
-    .project-url-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: var(--accent);
-        font-size: 1.1rem;
-        text-decoration: none;
-        margin-bottom: 1.5rem;
-        padding: 0.75rem 1.5rem;
-        background: rgba(6, 182, 212, 0.1);
-        border: 1px solid rgba(6, 182, 212, 0.3);
-        border-radius: 12px;
-        transition: all 0.3s ease;
-        font-weight: 500;
-    }
-    
-    .project-url-link:hover {
-        background: rgba(6, 182, 212, 0.2);
-        border-color: var(--accent);
-        transform: translateX(5px);
-        text-decoration: none;
-        color: var(--accent);
-    }
-    
-    .project-section {
-        margin-top: 3rem;
-        padding-top: 2.5rem;
-        border-top: 1px solid var(--glass-border);
-    }
-    
-    .project-section h2 {
-        margin-top: 0;
-    }
-    
-    .project-section h3 {
-        margin-top: 1.5rem;
-        margin-bottom: 1rem;
-    }
-    
-    .features-list, .how-it-works-list {
-        list-style: none;
-        padding-left: 0;
-    }
-    
-    .features-list li, .how-it-works-list li {
-        padding: 1rem 0;
-        padding-left: 3rem;
-        position: relative;
-        color: var(--text-muted);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-    
-    .features-list li:last-child, .how-it-works-list li:last-child {
-        border-bottom: none;
-    }
-    
-    .features-list li:before {
-        content: "✓";
-        position: absolute;
-        left: 0;
-        color: var(--primary);
-        font-weight: bold;
-        font-size: 1.5rem;
-        width: 2rem;
-        height: 2rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(99, 102, 241, 0.1);
-        border-radius: 8px;
-    }
-    
-    .how-it-works-list li:before {
-        content: counter(step-counter);
-        counter-increment: step-counter;
-        position: absolute;
-        left: 0;
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
-        color: white;
-        width: 2rem;
-        height: 2rem;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.9rem;
-        font-weight: bold;
-        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-    }
-    
-    .how-it-works-list {
-        counter-reset: step-counter;
-    }
-    
-    .pricing-grid {
+    .crumb { font-size: 0.9rem; margin-bottom: 2rem; display: inline-block; }
+
+    .detail-head {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        grid-template-columns: minmax(0, 1fr) auto;
         gap: 2rem;
-        margin-top: 2rem;
+        align-items: end;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--ink);
     }
-    
-    .pricing-card {
-        border: 1px solid var(--glass-border);
-        border-radius: 20px;
-        padding: 2rem;
-        background: rgba(30, 41, 59, 0.5);
-        backdrop-filter: blur(10px);
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
+
+    .detail-head .logo { max-height: 56px; max-width: 220px; object-fit: contain; margin-bottom: 1.5rem; }
+    .detail-head .logo.on-dark { background: var(--ink); padding: 0.75rem 1rem; border-radius: 8px; max-height: 80px; }
+    .detail-head h1 { margin-bottom: 0.5rem; }
+    .detail-head .tagline { font-family: var(--serif); font-style: italic; font-size: 1.3rem; color: var(--muted); margin: 0; }
+
+    .layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 280px;
+        gap: 4rem;
+        margin-top: 2.5rem;
+        align-items: start;
     }
-    
-    .pricing-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, var(--primary), var(--secondary));
-        opacity: 0;
-        transition: opacity 0.3s ease;
+
+    .prose p { font-size: 1.08rem; }
+
+    .facts {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--surface);
+        padding: 1.25rem 1.5rem;
+        position: sticky;
+        top: 1.5rem;
     }
-    
-    .pricing-card:hover {
-        transform: translateY(-5px);
-        border-color: var(--primary);
-        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+
+    .facts dl { display: grid; gap: 1rem; margin: 0; }
+    .facts dt { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+    .facts dd { margin: 0.2rem 0 0; color: var(--ink); }
+    .facts .btn { width: 100%; justify-content: center; margin-top: 1.25rem; }
+
+    .highlights {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--surface);
+        margin-top: 2.5rem;
     }
-    
-    .pricing-card:hover::before {
-        opacity: 1;
-    }
-    
-    .pricing-card h3 {
-        margin-top: 0;
-        color: var(--text);
-    }
-    
-    .pricing-price {
-        font-size: 2.5rem;
-        font-weight: 700;
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        margin: 1.5rem 0;
-        font-family: 'Space Grotesk', sans-serif;
-    }
-    
-    .pricing-features {
-        list-style: none;
-        padding-left: 0;
-    }
-    
-    .pricing-features li {
-        padding: 0.75rem 0;
-        padding-left: 2rem;
-        position: relative;
-        color: var(--text-muted);
-    }
-    
-    .pricing-features li:before {
-        content: "•";
-        position: absolute;
-        left: 0;
-        color: var(--primary);
-        font-weight: bold;
-        font-size: 1.5rem;
-    }
-    
-    .faq-item {
-        margin-bottom: 1.5rem;
-        padding: 1.5rem;
-        background: rgba(30, 41, 59, 0.4);
-        border: 1px solid var(--glass-border);
-        border-radius: 16px;
-        transition: all 0.3s ease;
-    }
-    
-    .faq-item:hover {
-        background: rgba(30, 41, 59, 0.6);
-        border-color: var(--primary);
-    }
-    
-    .faq-question {
-        font-weight: 600;
-        color: var(--text);
-        margin-bottom: 0.75rem;
-        font-size: 1.1rem;
-    }
-    
-    .faq-answer {
-        color: var(--text-muted);
-        line-height: 1.7;
-    }
-    
-    .featured-in {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-        align-items: center;
-        margin-top: 1.5rem;
-    }
-    
-    .featured-in-item {
-        padding: 0.75rem 1.5rem;
-        background: rgba(30, 41, 59, 0.5);
-        border: 1px solid var(--glass-border);
-        border-radius: 12px;
-        font-size: 0.95rem;
-        color: var(--text);
-        transition: all 0.3s ease;
-    }
-    
-    .featured-in-item:hover {
-        background: rgba(30, 41, 59, 0.7);
-        border-color: var(--primary);
-        transform: translateY(-2px);
-    }
-    
-    .coming-soon-banner {
-        background: linear-gradient(135deg, #f59e0b, #ef4444);
-        color: white;
-        padding: 1.25rem;
-        border-radius: 12px;
-        text-align: center;
-        margin-bottom: 2rem;
-        font-weight: 600;
-        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
-    }
-    
-    .out-of-service-banner {
-        background: linear-gradient(135deg, #ef4444, #dc2626);
-        color: white;
-        padding: 1.25rem;
-        border-radius: 12px;
-        text-align: center;
-        margin-bottom: 2rem;
-        font-weight: 600;
-        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+
+    .highlights div { padding: 1.25rem 1.5rem; border-right: 1px solid var(--line); }
+    .highlights div:last-child { border-right: none; }
+    .highlights strong { display: block; font-family: var(--serif); font-weight: 500; font-size: 1.7rem; color: var(--ink); line-height: 1.1; }
+    .highlights span { font-size: 0.88rem; color: var(--muted); }
+
+    .block { margin-top: 3.5rem; }
+    .block > h2 { padding-bottom: 0.75rem; border-bottom: 1px solid var(--line); margin-bottom: 1.5rem; }
+
+    .check-list { list-style: none; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.6rem 2rem; }
+    .check-list li { position: relative; padding-left: 1.4rem; margin: 0; }
+    .check-list li::before { content: ''; position: absolute; left: 0; top: 0.65em; width: 0.55rem; height: 0.55rem; border-radius: 2px; background: var(--accent); }
+
+    .feature-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem 3rem; }
+    .feature-groups h3 { font-size: 1.15rem; margin-bottom: 0.75rem; }
+    .feature-groups .check-list { grid-template-columns: 1fr; }
+    .feature-groups li { font-size: 0.97rem; }
+
+    .steps { list-style: none; margin: 0; counter-reset: step; }
+    .steps li { counter-increment: step; display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); padding: 0.85rem 0; border-bottom: 1px solid var(--line); margin: 0; }
+    .steps li:last-child { border-bottom: none; }
+    .steps li::before { content: counter(step, decimal-leading-zero); font-family: var(--mono); font-size: 0.85rem; color: var(--accent); padding-top: 0.2em; }
+
+    .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
+    .plan { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 1.5rem; display: flex; flex-direction: column; }
+    .plan.highlight { border-color: var(--ink); box-shadow: inset 0 3px 0 var(--accent); }
+    .plan h3 { font-family: var(--sans); font-size: 1rem; font-weight: 600; margin: 0; }
+    .plan .price { font-family: var(--serif); font-size: 2.2rem; color: var(--ink); line-height: 1.1; margin-top: 0.75rem; }
+    .plan .period { font-size: 0.88rem; color: var(--muted); margin-bottom: 1.25rem; }
+    .plan ul { list-style: none; margin: 0; border-top: 1px solid var(--line); padding-top: 1rem; }
+    .plan li { font-size: 0.95rem; padding-left: 1.2rem; position: relative; }
+    .plan li::before { content: '–'; position: absolute; left: 0; color: var(--muted); }
+
+    .press { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; font-family: var(--serif); font-size: 1.25rem; color: var(--ink); }
+
+    .faq details { border-bottom: 1px solid var(--line); }
+    .faq summary { cursor: pointer; list-style: none; padding: 1rem 2rem 1rem 0; font-weight: 500; color: var(--ink); position: relative; }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after { content: '+'; position: absolute; right: 0.25rem; top: 0.9rem; font-family: var(--mono); color: var(--muted); }
+    .faq details[open] summary::after { content: '–'; }
+    .faq details p { color: var(--muted); padding-bottom: 1.25rem; max-width: 46em; }
+
+    .detail-foot { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+
+    @media (max-width: 860px) {
+        .layout { grid-template-columns: 1fr; gap: 2rem; }
+        .facts { position: static; }
+        .detail-head { grid-template-columns: 1fr; }
+        .highlights div { border-right: none; border-bottom: 1px solid var(--line); }
+        .highlights div:last-child { border-bottom: none; }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="project-header">
-    {% if project.logo %}
-    <img src="{% static project.logo %}" alt="{{ project.name }} Logo" class="project-logo{% if project.out_of_service %} no-filter{% endif %}" onerror="this.style.display='none'">
-    {% endif %}
-    <h1>{{ project.name }}</h1>
-    {% if project.tagline %}
-    <p class="project-tagline">{{ project.tagline }}</p>
-    {% endif %}
-    {% if project.url and project.url != '#' %}
-    <a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="project-url-link">
-        Visit {{ project.name }} →
-    </a>
-    {% endif %}
-    {% if project.coming_soon %}
-    <div class="coming-soon-banner">🚧 Coming Soon - More details to be announced!</div>
-    {% endif %}
-    {% if project.out_of_service %}
-    <div class="out-of-service-banner">⚠️ Out of Service</div>
-    {% endif %}
-</div>
+<a href="{% url 'projects' %}" class="crumb">← All projects</a>
 
-<p style="font-size: 1.15rem; line-height: 1.8; margin-bottom: 2.5rem; color: var(--text-muted);">{{ project.description }}</p>
-
-{% if project.features %}
-<div class="project-section">
-    <h2>Key Features</h2>
-    <ul class="features-list">
-        {% for feature in project.features %}
-        <li>{{ feature }}</li>
-        {% endfor %}
-    </ul>
-</div>
-{% endif %}
-
-{% if project.pricing %}
-<div class="project-section">
-    <h2>Pricing Plans</h2>
-    <div class="pricing-grid">
-        {% if project.pricing.free %}
-        <div class="pricing-card">
-            <h3>Free Plan</h3>
-            <div class="pricing-price">{{ project.pricing.free.price }}</div>
-            <ul class="pricing-features">
-                {% for feature in project.pricing.free.features %}
-                <li>{{ feature }}</li>
-                {% endfor %}
-            </ul>
-        </div>
+<div class="detail-head">
+    <div>
+        {% if project.logo %}
+        <img src="{% static project.logo %}" alt="{{ project.name }} logo" class="logo{% if project.logo_on_dark %} on-dark{% endif %}">
         {% endif %}
-        {% if project.pricing.paid %}
-        <div class="pricing-card">
-            <h3>Paid Plan</h3>
-            <div class="pricing-price">{{ project.pricing.paid.price }}</div>
-            <ul class="pricing-features">
-                {% for feature in project.pricing.paid.features %}
-                <li>{{ feature }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        {% endif %}
+        <h1>{{ project.name }}</h1>
+        {% if project.tagline %}<p class="tagline">{{ project.tagline }}</p>{% endif %}
     </div>
+    {% if project.url %}
+    <a href="{{ project.url }}" target="_blank" rel="noopener" class="btn">Visit {{ project.url|cut:"https://" }} ↗</a>
+    {% endif %}
 </div>
-{% endif %}
 
-{% if project.how_it_works %}
-<div class="project-section">
-    <h2>How It Works</h2>
-    <ul class="how-it-works-list">
-        {% for step in project.how_it_works %}
-        <li>{{ step }}</li>
-        {% endfor %}
-    </ul>
-</div>
-{% endif %}
-
-{% if project.featured_in %}
-<div class="project-section">
-    <h2>Featured In</h2>
-    <div class="featured-in">
-        {% for publication in project.featured_in %}
-        <span class="featured-in-item">{{ publication }}</span>
+<div class="layout">
+    <div class="prose">
+        {% for paragraph in project.description %}
+        <p>{{ paragraph }}</p>
         {% endfor %}
     </div>
+    <aside class="facts">
+        <dl>
+            <div>
+                <dt>Status</dt>
+                <dd><span class="status status-{{ project.status|slugify }}">{{ project.status }}</span></dd>
+            </div>
+            {% if project.year %}
+            <div>
+                <dt>Launched</dt>
+                <dd>{{ project.year }}</dd>
+            </div>
+            {% endif %}
+            <div>
+                <dt>Built with</dt>
+                <dd><ul class="tags">{% for tech in project.stack %}<li>{{ tech }}</li>{% endfor %}</ul></dd>
+            </div>
+            {% if project.url %}
+            <div>
+                <dt>Website</dt>
+                <dd><a href="{{ project.url }}" target="_blank" rel="noopener">{{ project.url|cut:"https://" }}</a></dd>
+            </div>
+            {% endif %}
+        </dl>
+    </aside>
 </div>
-{% endif %}
 
-{% if project.faqs %}
-<div class="project-section">
-    <h2>Frequently Asked Questions</h2>
-    {% for faq in project.faqs %}
-    <div class="faq-item">
-        <div class="faq-question">{{ faq.question }}</div>
-        <div class="faq-answer">{{ faq.answer }}</div>
-    </div>
+{% if project.highlights %}
+<div class="highlights">
+    {% for number, label in project.highlights %}
+    <div><strong>{{ number }}</strong><span>{{ label }}</span></div>
     {% endfor %}
 </div>
 {% endif %}
 
-<div style="margin-top: 4rem; padding-top: 2.5rem; border-top: 2px solid var(--glass-border); display: flex; flex-wrap: wrap; gap: 1rem;">
-    <a href="{% url 'projects' %}" class="btn">← Back to Projects</a>
-    <a href="{% url 'home' %}" class="btn">Home</a>
-    {% if project.url and project.url != '#' %}
-    <a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="btn" style="background: linear-gradient(135deg, var(--secondary), var(--accent)); box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);">Visit Website →</a>
+{% if project.feature_groups %}
+<section class="block">
+    <h2>Features</h2>
+    <div class="feature-groups">
+        {% for group in project.feature_groups %}
+        <div>
+            <h3>{{ group.title }}</h3>
+            <ul class="check-list">
+                {% for item in group.items %}<li>{{ item }}</li>{% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% elif project.features %}
+<section class="block">
+    <h2>Features</h2>
+    <ul class="check-list">
+        {% for feature in project.features %}<li>{{ feature }}</li>{% endfor %}
+    </ul>
+</section>
+{% endif %}
+
+{% if project.how_it_works %}
+<section class="block">
+    <h2>How it works</h2>
+    <ol class="steps">
+        {% for step in project.how_it_works %}<li>{{ step }}</li>{% endfor %}
+    </ol>
+</section>
+{% endif %}
+
+{% if project.plans %}
+<section class="block">
+    <h2>Pricing</h2>
+    <div class="plans">
+        {% for plan in project.plans %}
+        <div class="plan{% if plan.highlight %} highlight{% endif %}">
+            <h3>{{ plan.name }}</h3>
+            <div class="price">{{ plan.price }}</div>
+            <div class="period">{{ plan.period }}</div>
+            <ul>
+                {% for feature in plan.features %}<li>{{ feature }}</li>{% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{% if project.featured_in %}
+<section class="block">
+    <h2>Featured in</h2>
+    <div class="press">
+        {% for publication in project.featured_in %}<span>{{ publication }}</span>{% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{% if project.faqs %}
+<section class="block faq">
+    <h2>Questions</h2>
+    {% for faq in project.faqs %}
+    <details>
+        <summary>{{ faq.question }}</summary>
+        <p>{{ faq.answer }}</p>
+    </details>
+    {% endfor %}
+</section>
+{% endif %}
+
+<div class="detail-foot btn-row">
+    <a href="{% url 'projects' %}" class="btn btn-ghost">← All projects</a>
+    {% if project.url %}
+    <a href="{{ project.url }}" target="_blank" rel="noopener" class="btn">Visit {{ project.name }} ↗</a>
     {% endif %}
 </div>
 {% endblock %}
