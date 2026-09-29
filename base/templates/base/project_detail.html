@@ -101,8 +101,11 @@
         .layout { grid-template-columns: 1fr; gap: 2rem; }
         .facts { position: static; }
         .detail-head { grid-template-columns: 1fr; }
-        .highlights div { border-right: none; border-bottom: 1px solid var(--line); }
-        .highlights div:last-child { border-bottom: none; }
+        .highlights { grid-template-columns: 1fr 1fr; }
+        .highlights div { padding: 1rem; border-right: none; border-bottom: 1px solid var(--line); }
+        .highlights div:nth-child(odd) { border-right: 1px solid var(--line); }
+        .highlights div:nth-last-child(-n+2) { border-bottom: none; }
+        .highlights strong { font-size: 1.35rem; }
     }
 </style>
 {% endblock %}

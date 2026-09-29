@@ -71,19 +71,14 @@
     .index-meta { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 0.25rem; }
     .index-meta .year { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
 
-    .note {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 2rem;
-    }
-
-    .note h3 { font-size: 1.15rem; }
-    .note p { color: var(--muted); font-size: 0.97rem; }
 
     @media (max-width: 760px) {
         .intro { grid-template-columns: 1fr; gap: 2rem; }
         .intro .avatar { width: 150px; height: 150px; order: -1; }
-        .index a { grid-template-columns: 64px minmax(0, 1fr); gap: 1rem; }
+        .index a { grid-template-columns: 64px minmax(0, 1fr); gap: 1rem; align-items: start; padding: 1.1rem 0; }
+        .index-logo { height: 36px; }
+        .index-logo img { max-height: 36px; }
+        .index-logo .placeholder { width: 36px; height: 36px; font-size: 1.1rem; }
         .index-logo, .index-logo img { width: 64px; max-width: 64px; }
         .index-meta { grid-column: 2; flex-direction: row; align-items: center; gap: 0.75rem; }
     }
@@ -132,25 +127,5 @@
         </li>
         {% endfor %}
     </ul>
-</section>
-
-<section class="section">
-    <div class="section-head">
-        <h2>How I work</h2>
-    </div>
-    <div class="note">
-        <div>
-            <h3>Start from a real problem</h3>
-            <p>Each project began with something I or my family actually needed: an interview slot, a group decision, a retirement plan we could understand.</p>
-        </div>
-        <div>
-            <h3>Ship it, then improve it</h3>
-            <p>I get a working version in front of people early and keep iterating based on how they use it.</p>
-        </div>
-        <div>
-            <h3>Keep it honest</h3>
-            <p>Clear pricing, free tiers where it makes sense, and no selling your data.</p>
-        </div>
-    </div>
 </section>
 {% endblock %}
